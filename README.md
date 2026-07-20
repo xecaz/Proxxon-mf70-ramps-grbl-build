@@ -31,11 +31,19 @@ clone Mega 2560.
   ATmega2560 with native RAMPS 1.4 support (limits, homing, and G38.2 **probing**, which
   PCB auto-leveling needs). Plain `gnea/grbl` targets the UNO/328 and is the wrong build;
   grblHAL/FluidNC are better but need 32-bit hardware we don't have.
-- **Firmware built:** `grbl-Mega-5X` **v1.2i** compiled for the Mega 2560 (RAMPS pin map,
-  trimmed to 3 axes) → `firmware/grbl-Mega-5X/build_out/grblUpload.ino.hex`. Not yet
-  flashed.
-- **Not yet done:** flash GRBL, configure `$$` settings (steps/mm, homing off), wire a
-  Z-probe for PCB leveling, install a sender + CAM toolchain.
+- **Firmware flashed:** `grbl-Mega-5X` **v1.2i** on the Mega 2560 (RAMPS pin map, 3 axes)
+  → source/hex in `firmware/grbl-Mega-5X/build_out/grblUpload.ino.hex`. Verified talking
+  GRBL at 115200 on `/dev/ttyACM0`.
+- **GRBL configured & working:** no-endstop config (`$20=0 $21=0 $22=0`), steps/mm
+  `$100/101/102=6400` (**verified with a 0.01 mm dial indicator**), max-rate `$110-112=250`,
+  and **direction mask `$3=6`** (X normal, Y inverted, Z inverted — confirmed by jogging).
+  Full restorable config: `firmware/grbl_settings_mf70.txt`.
+- **Software stack installed:** **bCNC** (sender, system-wide via pip) + **FreeCAD 1.1.1**
+  (CAM, with the `grbl` post-processor). Air-move streaming test passed.
+- **First engraving cut done:** "XecaZ.com" with a 60° V-bit via FreeCAD CAM → grbl post →
+  bCNC. Full CAD→CAM→cut pipeline proven end to end. ✅
+- **Not yet done:** wire a Z-probe for PCB auto-leveling, PCB CAM workflow
+  (KiCad/Gerber → `pcb2gcode`/FlatCAM).
 
 Because there are **no endstops**, GRBL will run with homing/hard-limits disabled
 (`$22=0`, `$21=0`) and manual work-zeroing at the workpiece corner — standard for hobby
@@ -68,8 +76,8 @@ PCB / light milling.
 Decoded little-endian floats from the original EEPROM (undocumented Estlcam layout):
 `6400, 400, 200, 51200, 57600, -42`. Confirmed: `200` = motor full-steps/rev and
 `6400 = 200 × 32` matches the **1/32 microstepping** (all 3 DRV8825 jumpers fitted). With
-the MF70's ~1 mm leadscrew this implies **≈6400 steps/mm** — the starting value for GRBL
-`$100/$101/$102`, to be verified by measurement during calibration.
+the MF70's ~1 mm leadscrew this implies **6400 steps/mm** — set as GRBL
+`$100/$101/$102` and **verified with a 0.01 mm dial indicator**.
 
 ## Talking to the board
 

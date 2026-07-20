@@ -1,0 +1,15 @@
+# Python venv for bCNC (recreate with: python3 -m venv --system-site-packages tools/bcnc-venv)
+tools/bcnc-venv/
+
+# Upstream firmware clone — has its own git history; kept local only.
+# Our only change is grbl/config.h (N_AXIS 5->3); note it separately if needed.
+firmware/grbl-Mega-5X/
+
+# Binary conversions of the firmware backups (the .hex originals are kept)
+firmware_backup/*.bin
+
+# OS / editor cruft
+*.swp
+*~
+__pycache__/
+.DS_Store
