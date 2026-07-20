@@ -1,0 +1,41 @@
+; ==============================================================
+; GRBL settings — Proxxon MF70 / grbl-Mega-5X 1.2i
+; Restorable config: paste these lines into bCNC's Terminal (or any
+; sender) to reapply after an EEPROM wipe / $RST=*.
+; Machine-specific lines are marked  <-- MF70.
+; Last confirmed working: 2026-07-20
+; ==============================================================
+$0=10          ; step pulse, microseconds
+$1=254         ; step idle delay, ms (254 = keep steppers energized)
+$2=0           ; step port invert mask
+$3=6           ; DIRECTION invert mask: X normal, Y inv, Z inv  <-- MF70
+$4=0           ; step enable invert
+$5=0           ; limit pins invert
+$6=0           ; probe pin invert
+$10=1          ; status report mask
+$11=0.020      ; junction deviation, mm
+$12=0.002      ; arc tolerance, mm
+$13=0          ; report in mm
+$20=0          ; soft limits OFF (no homing reference)              <-- MF70
+$21=0          ; hard limits OFF (no endstop switches)              <-- MF70
+$22=0          ; homing cycle OFF (no endstops)                     <-- MF70
+$23=0          ; homing dir invert
+$24=25.000     ; homing feed, mm/min
+$25=250.000    ; homing seek, mm/min
+$26=250        ; homing debounce, ms
+$27=5.000      ; homing pull-off, mm
+$30=12000      ; max spindle RPM (spindle is manual; nominal only)
+$31=550        ; min spindle RPM
+$32=0          ; laser mode OFF
+$100=6400.000  ; X steps/mm (200 x 32 / ~1mm screw) VERIFIED 0.01mm gauge <-- MF70
+$101=6400.000  ; Y steps/mm  VERIFIED with 0.01mm dial indicator         <-- MF70
+$102=6400.000  ; Z steps/mm  VERIFIED with 0.01mm dial indicator         <-- MF70
+$110=250.000   ; X max rate, mm/min (kept < ~30kHz step ceiling)     <-- MF70
+$111=250.000   ; Y max rate, mm/min                                  <-- MF70
+$112=250.000   ; Z max rate, mm/min                                  <-- MF70
+$120=30.000    ; X acceleration, mm/sec^2 (gentle for first cuts)    <-- MF70
+$121=30.000    ; Y acceleration, mm/sec^2                            <-- MF70
+$122=30.000    ; Z acceleration, mm/sec^2                            <-- MF70
+$130=400.000   ; X max travel, mm (soft-limit ref; unused, $20=0)
+$131=200.000   ; Y max travel, mm
+$132=200.000   ; Z max travel, mm
